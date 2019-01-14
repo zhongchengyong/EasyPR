@@ -2,6 +2,7 @@
 #define EASYPR_CORE_FEATURE_H_
 
 #include "opencv2/opencv.hpp"
+#include <opencv2/core/types_c.h>
 
 using namespace cv;
 

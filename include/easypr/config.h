@@ -138,9 +138,9 @@ private:\
     model = ml::ANN_MLP::load(path);
 #else
   #define LOAD_SVM_MODEL(model, path) \
-    model = ml::SVM::load<ml::SVM>(path);
+    model = ml::SVM::load(path);
   #define LOAD_ANN_MODEL(model, path) \
-    model = ml::ANN_MLP::load<ml::ANN_MLP>(path);
+    model = ml::ANN_MLP::load(path);
 #endif
 
 }

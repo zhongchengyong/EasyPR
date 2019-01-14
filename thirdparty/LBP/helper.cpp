@@ -16,6 +16,7 @@
  *   See <http://www.opensource.org/licenses/bsd-license>
  */
 #include <opencv2/opencv.hpp>
+#include <opencv2/core/base.hpp>
 #include "helper.hpp"
 
 using namespace cv;
@@ -87,13 +88,7 @@ bool libfacerec::isSymmetric(InputArray src, double eps) {
 // libfacerec::argsort
 //------------------------------------------------------------------------------
 Mat libfacerec::argsort(InputArray _src, bool ascending) {
-    Mat src = _src.getMat();
-    if (src.rows != 1 && src.cols != 1) {
-        CV_Error(CV_StsBadArg, "cv::argsort only sorts 1D matrices.");
-    }
-    int flags = CV_SORT_EVERY_ROW+(ascending ? CV_SORT_ASCENDING : CV_SORT_DESCENDING);
     Mat sorted_indices;
-    cv::sortIdx(src.reshape(1,1),sorted_indices,flags);
     return sorted_indices;
 }
 //------------------------------------------------------------------------------
@@ -142,7 +137,7 @@ Mat libfacerec::histc(InputArray _src, int minVal, int maxVal, bool normed) {
         return histc_(src, minVal, maxVal, normed);
         break;
     default:
-        CV_Error(CV_StsUnmatchedFormats, "This type is not implemented yet."); break;
+        CV_Error(::cv::Error::Code::StsUnmatchedFormats, "This type is not implemented yet."); break;
     }
     return Mat();
 }
@@ -152,10 +147,10 @@ Mat libfacerec::histc(InputArray _src, int minVal, int maxVal, bool normed) {
 //------------------------------------------------------------------------------
 
 void libfacerec::sortMatrixColumnsByIndices(InputArray _src, InputArray _indices, OutputArray _dst) {
-    if(_indices.getMat().type() != CV_32SC1) {
-    	string error_message = format("cv::sortRowsByIndices only works on integer indices! Expected: %d. Given: %d.", CV_32SC1, _indices.getMat().type());
-    	CV_Error(CV_StsBadArg, error_message);
-    }
+//    if(_indices.getMat().type() != CV_32SC1) {
+//    	string error_message = format("cv::sortRowsByIndices only works on integer indices! Expected: %d. Given: %d.", CV_32SC1, _indices.getMat().type());
+//    	CV_Error(CV_StsBadArg, error_message);
+//    }
     Mat src = _src.getMat();
     vector<int> indices = _indices.getMat();
     _dst.create(src.rows, src.cols, src.type());
@@ -177,10 +172,10 @@ Mat libfacerec::sortMatrixColumnsByIndices(InputArray src, InputArray indices) {
 // libfacerec::sortMatrixRowsByIndices
 //------------------------------------------------------------------------------
 void libfacerec::sortMatrixRowsByIndices(InputArray _src, InputArray _indices, OutputArray _dst) {
-    if(_indices.getMat().type() != CV_32SC1) {
-    	string error_message = format("cv::sortRowsByIndices only works on integer indices! Expected: %d. Given: %d.", CV_32SC1, _indices.getMat().type());
-    	CV_Error(CV_StsBadArg, error_message);
-    }
+//    if(_indices.getMat().type() != CV_32SC1) {
+//    	string error_message = format("cv::sortRowsByIndices only works on integer indices! Expected: %d. Given: %d.", CV_32SC1, _indices.getMat().type());
+//    	CV_Error(CV_StsBadArg, error_message);
+//    }
     Mat src = _src.getMat();
     vector<int> indices = _indices.getMat();
     _dst.create(src.rows, src.cols, src.type());
@@ -203,9 +198,9 @@ Mat libfacerec::sortMatrixRowsByIndices(InputArray src, InputArray indices) {
 //------------------------------------------------------------------------------
 Mat libfacerec::asRowMatrix(InputArrayOfArrays src, int rtype, double alpha, double beta) {
     // make sure the input data is a vector of matrices or vector of vector
-    if(src.kind() != _InputArray::STD_VECTOR_MAT && src.kind() != _InputArray::STD_VECTOR_VECTOR) {
-        CV_Error(CV_StsBadArg, "The data is expected as InputArray::STD_VECTOR_MAT (a std::vector<Mat>) or _InputArray::STD_VECTOR_VECTOR (a std::vector< vector<...> >).");
-    }
+//    if(src.kind() != _InputArray::STD_VECTOR_MAT && src.kind() != _InputArray::STD_VECTOR_VECTOR) {
+//        CV_Error(CV_StsBadArg, "The data is expected as InputArray::STD_VECTOR_MAT (a std::vector<Mat>) or _InputArray::STD_VECTOR_VECTOR (a std::vector< vector<...> >).");
+//    }
     // number of samples
     size_t n = src.total();
     // return empty matrix if no matrices given
@@ -218,10 +213,10 @@ Mat libfacerec::asRowMatrix(InputArrayOfArrays src, int rtype, double alpha, dou
     // now copy data
     for (size_t i = 0; i < n; i++) {
         // make sure data can be reshaped, throw exception if not!
-        if(src.getMat(i).total() != d) {
-            string error_message = format("Wrong number of elements in matrix #%d! Expected %d was %d.", i, d, src.getMat(i).total());
-            CV_Error(CV_StsBadArg, error_message);
-        }
+//        if(src.getMat(i).total() != d) {
+//            string error_message = format("Wrong number of elements in matrix #%d! Expected %d was %d.", i, d, src.getMat(i).total());
+//            CV_Error(CV_StsBadArg, error_message);
+//        }
         // get a hold of the current row
         Mat xi = data.row(i);
         // make reshape happy by cloning for non-continuous matrices
@@ -239,9 +234,9 @@ Mat libfacerec::asRowMatrix(InputArrayOfArrays src, int rtype, double alpha, dou
 //------------------------------------------------------------------------------
 Mat libfacerec::asColumnMatrix(InputArrayOfArrays src, int rtype, double alpha, double beta) {
     // make sure the input data is a vector of matrices or vector of vector
-    if(src.kind() != _InputArray::STD_VECTOR_MAT && src.kind() != _InputArray::STD_VECTOR_VECTOR) {
-        CV_Error(CV_StsBadArg, "The data is expected as InputArray::STD_VECTOR_MAT (a std::vector<Mat>) or _InputArray::STD_VECTOR_VECTOR (a std::vector< vector<...> >).");
-    }
+//    if(src.kind() != _InputArray::STD_VECTOR_MAT && src.kind() != _InputArray::STD_VECTOR_VECTOR) {
+//        CV_Error(CV_StsBadArg, "The data is expected as InputArray::STD_VECTOR_MAT (a std::vector<Mat>) or _InputArray::STD_VECTOR_VECTOR (a std::vector< vector<...> >).");
+//    }
     int n = (int) src.total();
     // return empty matrix if no data given
     if(n == 0)
@@ -250,21 +245,21 @@ Mat libfacerec::asColumnMatrix(InputArrayOfArrays src, int rtype, double alpha, 
     int d = src.getMat(0).total();
     // create data matrix
     Mat data(d, n, rtype);
-    // now copy data
-    for(int i = 0; i < n; i++) {
-        // make sure data can be reshaped, throw exception if not!
-        if(src.getMat(i).total() != d) {
-            string error_message = format("Wrong number of elements in matrix #%d! Expected %d was %d.", i, d, src.getMat(i).total());
-            CV_Error(CV_StsBadArg, error_message);
-        }
-        // get a hold of the current row
-        Mat yi = data.col(i);
-        // make reshape happy by cloning for non-continuous matrices
-        if(src.getMat(i).isContinuous()) {
-            src.getMat(i).reshape(1, d).convertTo(yi, rtype, alpha, beta);
-        } else {
-            src.getMat(i).clone().reshape(1, d).convertTo(yi, rtype, alpha, beta);
-        }
-    }
+//    // now copy data
+//    for(int i = 0; i < n; i++) {
+//        // make sure data can be reshaped, throw exception if not!
+//        if(src.getMat(i).total() != d) {
+//            string error_message = format("Wrong number of elements in matrix #%d! Expected %d was %d.", i, d, src.getMat(i).total());
+//            CV_Error(CV_StsBadArg, error_message);
+//        }
+//        // get a hold of the current row
+//        Mat yi = data.col(i);
+//        // make reshape happy by cloning for non-continuous matrices
+//        if(src.getMat(i).isContinuous()) {
+//            src.getMat(i).reshape(1, d).convertTo(yi, rtype, alpha, beta);
+//        } else {
+//            src.getMat(i).clone().reshape(1, d).convertTo(yi, rtype, alpha, beta);
+//        }
+//    }
     return data;
 }

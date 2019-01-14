@@ -2,6 +2,7 @@
 #define EASYPR_CORE_COREFUNC_H_
 
 #include "opencv2/opencv.hpp"
+#include <opencv2/highgui.hpp>
 #include "easypr/core/plate.hpp"
 #include "easypr/core/character.hpp"
 

@@ -62,7 +62,6 @@ namespace cv
 
     using namespace cv::ml;
     using namespace std;
-    using namespace cv::ml;
 
     // Deletes a tree of ERStat regions starting at root. Used only
     // internally to this implementation.

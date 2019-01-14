@@ -2423,7 +2423,7 @@ void clearBorder(const Mat &img, Rect& cropRect) {
   }
 
   Mat showResult(const Mat &result, int img_index) {
-    namedWindow("EasyPR", CV_WINDOW_AUTOSIZE);
+    namedWindow("EasyPR", WINDOW_AUTOSIZE);
 
     const int RESULTWIDTH = kShowWindowWidth;   // 640 930
     const int RESULTHEIGHT = kShowWindowHeight;  // 540 710

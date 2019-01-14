@@ -6,11 +6,11 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-    set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/opt/opencv-3.2.0")
+    set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Cellar/opencv/4.0.1")
 endif ()
 
 # OpenVC3 required
-find_package(OpenCV 3.2.0 REQUIRED)
+find_package(OpenCV 4.0.1 REQUIRED)
 
 # where to find header files
 include_directories(.)
